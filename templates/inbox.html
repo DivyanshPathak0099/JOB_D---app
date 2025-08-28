@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inbox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            height: 100vh;
+            background-image: url('/static/2_job_d.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Semi-transparent overlay */
+            z-index: 1;
+        }
+        .inbox-container {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            z-index: 2;
+            max-height: 500px; /* Scrollable inbox */
+            overflow-y: auto;
+        }
+        .accepted-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 5px;
+        }
+        .inbox-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .inbox-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .inbox-container::-webkit-scrollbar-thumb {
+            background: #28a745;
+            border-radius: 10px;
+        }
+        .inbox-container::-webkit-scrollbar-thumb:hover {
+            background: #218838;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        a {
+            color: #28a745;
+            text-decoration: none;
+            position: relative;
+            z-index: 2;
+        }
+        a:hover {
+            color: #218838;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Inbox</h1>
+    <div><a href="{{ url_for('home') }}">Back to Home</a></div>
+    <div class="inbox-container">
+        <h2>Accepted Jobs</h2>
+        {% if accepted_jobs %}
+            {% for accepted in accepted_jobs %}
+                <div class="accepted-box">
+                    <p><strong>Job ID:</strong> {{ accepted.job_id }}</p>
+                    <p><strong>Accepted By:</strong> {{ accepted.accepter_name }}</p>
+                    <p><strong>Address:</strong> {{ accepted.accepter_address }}</p>
+                    <p><strong>City:</strong> {{ accepted.accepter_city }}</p>
+                    <p><strong>Pincode:</strong> {{ accepted.accepter_pincode }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No jobs have been accepted yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results for Pincode {{ pincode }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            height: 100vh;
+            background-image: url('/static/4_job_d.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        .jobs-list {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            z-index: 2;
+            max-height: 300px; /* Same as home.html jobs-list */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+        .job-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 5px;
+        }
+        .job-box a {
+            color: #28a745;
+            text-decoration: none;
+        }
+        .job-box a:hover {
+            color: #218838;
+            text-decoration: underline;
+        }
+        .back-link {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 20px;
+        }
+        .back-link a {
+            color: #28a745;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link a:hover {
+            color: #218838;
+            text-decoration: underline;
+        }
+        .jobs-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .jobs-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .jobs-list::-webkit-scrollbar-thumb {
+            background: #28a745;
+            border-radius: 10px;
+        }
+        .jobs-list::-webkit-scrollbar-thumb:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Results for Pincode {{ pincode }}</h1>
+    <div class="back-link"><a href="{{ url_for('home') }}">Back to Home</a></div>
+    <div class="jobs-list">
+        <h2>Matching Job Posts</h2>
+        {% if jobs %}
+            {% for job in jobs %}
+                <div class="job-box">
+                    <p><strong>Company:</strong> {{ job.company_name }}</p>
+                    <p><strong>Address:</strong> {{ job.address }}</p>
+                    <p><strong>Pincode:</strong> {{ job.pincode }}</p>
+                    <p><strong>Salary:</strong> {{ job.salary }}</p>
+                    <p><strong>Job Type:</strong> {{ job.job_type }}</p>
+                    <p><strong>Phone:</strong> {{ job.phone }}</p>
+                    <a href="{{ url_for('accept', job_id=job.id) }}">Accept</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No jobs found for this pincode.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

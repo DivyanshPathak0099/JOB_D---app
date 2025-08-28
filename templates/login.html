@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JOB_D Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('/static/2_job_d.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+            font-family: Arial, sans-serif;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        .container {
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+        .title {
+            font-size: 4em;
+            margin-bottom: 10px;
+        }
+        .welcome {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .login-box {
+            background-color: green;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            margin: 0 auto;
+        }
+        input[type="text"], input[type="password"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: white;
+            border: none;
+            color: green;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+        .username-container {
+            position: relative;
+            width: 100%;
+        }
+        .username-container::after {
+            content: '"@" ';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #333;
+            font-size: 1.2em;
+        }
+    </style>
+    <script>
+        // Add @ symbol dynamically after username input
+        document.addEventListener('DOMContentLoaded', function() {
+            const usernameInput = document.querySelector('input[name="username"]');
+            const usernameContainer = usernameInput.parentElement;
+            usernameInput.addEventListener('input', function() {
+                if (usernameInput.value.length > 0) {
+                    usernameContainer.classList.add('has-username');
+                } else {
+                    usernameContainer.classList.remove('has-username');
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="title">JOB_D</div>
+        <div class="welcome">Welcome</div>
+        <div class="login-box">
+            <form method="POST">
+                <div class="username-container">
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+                <input type="number" name="number" placeholder="Unique Number" required min="4">
+                <input type="password" name="password" placeholder="Enter Password" required>
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p style="color: red; position: relative; z-index: 2;">{{ messages[0] }}</p>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

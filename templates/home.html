@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            height: 100vh;
+            background-image: url('/static/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Semi-transparent overlay for readability */
+            z-index: 1;
+        }
+        .user-name { 
+            font-size: 2em; 
+            color: white; 
+            text-align: center; 
+            position: relative; 
+            z-index: 2; 
+        }
+        .topics { 
+            margin: 20px 0; 
+            text-align: center; 
+            position: relative; 
+            z-index: 2; 
+        }
+        .topic { 
+            margin: 10px 0; 
+        }
+        .topic a { 
+            color: #28a745; /* Green color for links */
+            text-decoration: none; 
+            font-weight: bold; 
+        }
+        .topic a:hover { 
+            color: #218838; /* Darker green on hover */
+            text-decoration: underline; 
+        }
+        .users-count, .jobs-list { 
+            margin-top: 20px; 
+            background: rgba(255, 255, 255, 0.9); /* Slightly more opaque for readability */
+            padding: 20px; 
+            border-radius: 10px; 
+            position: relative; 
+            z-index: 2; 
+        }
+        .jobs-list { 
+            max-height: 300px; /* Height for job posts */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+        .job-box { 
+            border: 1px solid #ccc; 
+            padding: 10px; 
+            margin: 10px 0; 
+            background: white; 
+            border-radius: 5px; 
+        }
+        .job-box a { 
+            color: #28a745; /* Green color for Accept link */
+            text-decoration: none; 
+        }
+        .job-box a:hover { 
+            color: #218838; /* Darker green on hover */
+            text-decoration: underline; 
+        }
+        .search-bar { 
+            margin-bottom: 20px; 
+            text-align: center; 
+            position: relative; 
+            z-index: 2; 
+        }
+        .search-bar input { 
+            padding: 10px; 
+            width: 200px; 
+            border-radius: 5px; 
+            border: 1px solid #ccc; 
+        }
+        .search-bar button { 
+            padding: 10px; 
+            background: #28a745; /* Green button */
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        .search-bar button:hover { 
+            background: #218838; /* Darker green on hover */
+        }
+        .users-count p, .jobs-list h2 {
+            margin: 10px 0;
+        }
+        .jobs-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .jobs-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .jobs-list::-webkit-scrollbar-thumb {
+            background: #28a745;
+            border-radius: 10px;
+        }
+        .jobs-list::-webkit-scrollbar-thumb:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-name">Welcome, {{ user.name }}</div>
+    <div class="search-bar">
+        <form method="POST" action="{{ url_for('search') }}">
+            <input type="text" name="pincode" placeholder="Search by Pincode">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="topics">
+        <div class="topic"><a href="{{ url_for('provide') }}">Providing</a></div>
+        <div class="topic"><a href="{{ url_for('inbox') }}">Inbox</a></div>
+    </div>
+    <div class="users-count">
+        <h2>Statistics</h2>
+        <p>Total Users: {{ total_users }}</p>
+        <p>Total Jobs: {{ total_jobs }}</p>
+    </div>
+    <div class="jobs-list">
+        <h2>Job Posts</h2>
+        {% if jobs %}
+            {% for job in jobs %}
+                <div class="job-box">
+                    <p><strong>Company:</strong> {{ job.company_name }}</p>
+                    <p><strong>Address:</strong> {{ job.address }}</p>
+                    <p><strong>Pincode:</strong> {{ job.pincode }}</p>
+                    <p><strong>Salary:</strong> {{ job.salary }}</p>
+                    <p><strong>Job Type:</strong> {{ job.job_type }}</p>
+                    <p><strong>Phone:</strong> {{ job.phone }}</p>
+                    <a href="{{ url_for('accept', job_id=job.id) }}">Accept</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No job posts available.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
